@@ -1,18 +1,16 @@
-import { View, Text, SafeAreaView, Image, TextInput, ScrollView } from 'react-native';
-import React, { useLayoutEffect } from 'react';
+import { View, SafeAreaView, ScrollView } from 'react-native';
+import React, { useLayoutEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {
-  UserIcon,
-  ChevronDownIcon,
-  MagnifyingGlassIcon,
-  AdjustmentsVerticalIcon,
-} from 'react-native-heroicons/outline';
 import Categories from '../components/Categories/Categories';
 import HeaderTabs from '../components/Header/HeaderTabs';
 import SearchBar from '../components/SearchBar/SearchBar';
-let test;
+import RestaurantItems from '../components/RestaurantItems/RestaurantItems';
+import { localRestaurants } from '../locales/locales';
+import { restaurantData } from '../types/types';
+
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [restaurantData, setRestaurantData] = useState<restaurantData[]>(localRestaurants);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -26,7 +24,10 @@ const HomeScreen = () => {
         <HeaderTabs />
         <SearchBar />
       </View>
-      <Categories />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Categories />
+        <RestaurantItems restaurantData={restaurantData} navigation={navigation} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
