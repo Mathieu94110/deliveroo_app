@@ -1,5 +1,5 @@
 import { View, SafeAreaView, ScrollView, Alert } from 'react-native';
-import React, { useLayoutEffect, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Categories from '../components/Categories/Categories';
 import HeaderTabs from '../components/Header/HeaderTabs';
@@ -13,7 +13,6 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const [restaurantData, setRestaurantData] = useState<any>(localRestaurants);
   const [city, setCity] = useState('Paris');
-  const [activeTab, setActiveTab] = useState('Delivery');
 
   const getRestaurantsOnCity = async () => {
     const response = await getRestaurantsFromYelp(city);
@@ -33,8 +32,7 @@ const HomeScreen = () => {
   return (
     <SafeAreaView className="bg-slate-300 flex-1">
       <View className="bg-white p-4">
-        <HeaderTabs />
-        <SearchBar />
+        <SearchBar cityHandler={setCity} />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Categories />
