@@ -2,8 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { Divider } from 'react-native-elements';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 
 const styles = StyleSheet.create({
   menuItemStyle: {
@@ -18,50 +16,28 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function MenuItems({ restaurantName, foods, hideCheckbox, marginLeft }) {
-  const dispatch = useDispatch();
-
-  const selectItem = (item, checkboxValue) =>
-    dispatch({
-      type: 'ADD_TO_CART',
-      payload: {
-        ...item,
-        restaurantName: restaurantName,
-        checkboxValue: checkboxValue,
-      },
-    });
-
-  const cartItems = useSelector((state) => state.cartReducer.selectedItems.items);
-
-  const isFoodInCart = (food, cartItems) =>
-    Boolean(cartItems.find((item) => item.title === food.title));
-
+export default function MenuItems({ restaurantName, foods }: { restaurantName: any; foods: any }) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      {foods.map((food, index) => (
+      {foods.map((food: any, index: any) => (
         <View key={index}>
           <View style={styles.menuItemStyle}>
-            {hideCheckbox ? (
-              <></>
-            ) : (
-              <BouncyCheckbox
-                iconStyle={{ borderColor: 'lightgray', borderRadius: 0 }}
-                fillColor="green"
-                isChecked={isFoodInCart(food, cartItems)}
-                onPress={(checkboxValue) => selectItem(food, checkboxValue)}
-              />
-            )}
+            <BouncyCheckbox
+              iconStyle={{ borderColor: 'lightgray', borderRadius: 0 }}
+              fillColor="green"
+            />
+
             <FoodInfo food={food} />
-            <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
+            <FoodImage food={food} />
           </View>
-          <Divider width={0.5} orientation="vertical" style={{ marginHorizontal: 20 }} />
+          <Divider className="w-px" orientation="vertical" style={{ marginHorizontal: 20 }} />
         </View>
       ))}
     </ScrollView>
   );
 }
 
-const FoodInfo = (props) => (
+const FoodInfo = (props: any) => (
   <View style={{ width: 240, justifyContent: 'space-evenly' }}>
     <Text style={styles.titleStyle}>{props.food.title}</Text>
     <Text>{props.food.description}</Text>
@@ -69,7 +45,7 @@ const FoodInfo = (props) => (
   </View>
 );
 
-const FoodImage = ({ marginLeft, ...props }) => (
+const FoodImage = ({ marginLeft, ...props }: { marginLeft: number; props: any }) => (
   <View>
     <Image
       source={{ uri: props.food.image }}

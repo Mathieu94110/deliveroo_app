@@ -1,16 +1,13 @@
 import { View, SafeAreaView, ScrollView, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import Categories from '../components/Categories/Categories';
-import HeaderTabs from '../components/Header/HeaderTabs';
 import SearchBar from '../components/SearchBar/SearchBar';
 import RestaurantItems from '../components/RestaurantItems/RestaurantItems';
 import { localRestaurants } from '../locales/locales';
 import { restaurantData } from '../types/types';
 import { getRestaurantsFromYelp } from '../services/businessesService';
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [restaurantData, setRestaurantData] = useState<any>(localRestaurants);
   const [city, setCity] = useState('Paris');
 
@@ -27,7 +24,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getRestaurantsOnCity();
-  }, []);
+  }, [city]);
 
   return (
     <SafeAreaView className="bg-slate-300 flex-1">

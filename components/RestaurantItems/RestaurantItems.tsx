@@ -17,13 +17,16 @@ export default function RestaurantItems({
           activeOpacity={1}
           className="mb-7"
           onPress={() =>
-            navigation.navigate('RestaurantDetail', {
-              name: restaurant.name,
-              image_url: restaurant.image_url,
-              price: restaurant.price,
-              review_count: restaurant.review_count,
-              rating: restaurant.rating,
-              categories: restaurant.categories,
+            navigation.navigate('Root', {
+              screen: 'RestaurantDetails',
+              params: {
+                name: restaurant.name,
+                image_url: restaurant.image_url,
+                price: restaurant.price,
+                review_count: restaurant.review_count,
+                rating: restaurant.rating,
+                categories: restaurant.categories,
+              },
             })
           }
         >

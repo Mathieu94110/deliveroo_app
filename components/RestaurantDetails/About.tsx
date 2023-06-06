@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 
-export default function About(props) {
+export default function About(props: any) {
   const { name, image, price, reviews, rating, categories } = props.route.params;
 
-  const formattedCategories = categories.map((cat) => cat.title).join(' • ');
+  const formattedCategories = categories.map((cat: any) => cat.title).join(' • ');
 
   const description = `${formattedCategories} ${
     price ? ' • ' + price : ''
@@ -18,11 +18,11 @@ export default function About(props) {
   );
 }
 
-const RestaurantImage = (props) => (
+const RestaurantImage = (props: any) => (
   <Image source={{ uri: props.image }} style={{ width: '100%', height: 180 }} />
 );
 
-const RestaurantName = (props) => (
+const RestaurantName = (props: any) => (
   <Text
     style={{
       fontSize: 29,
@@ -35,7 +35,7 @@ const RestaurantName = (props) => (
   </Text>
 );
 
-const RestaurantDescription = (props) => (
+const RestaurantDescription = (props: any) => (
   <Text
     style={{
       marginTop: 10,
