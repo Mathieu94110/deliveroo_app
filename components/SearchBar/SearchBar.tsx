@@ -1,13 +1,21 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { MapPinIcon, InformationCircleIcon } from 'react-native-heroicons/outline';
+import { GOOGLE_MAPS_KEY } from '@env';
 
-export default function SearchBar() {
+export default function SearchBar({ cityHandler }: { cityHandler: Function }) {
   return (
     <View style={{ marginTop: 15, flexDirection: 'row' }}>
       <GooglePlacesAutocomplete
-        query={{ key: 'AIzaSyATiAqIXBARofRD2apZcPQ1eEWZPH4fPV4' }}
+        query={{ key: GOOGLE_MAPS_KEY, language: 'en' }}
+        requestUrl={{
+          useOnPlatform: 'all',
+          url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api',
+        }}
+        fetchDetails={true}
+        onPress={(data, details = null) => console.log(data, details)}
+        onFail={(error) => console.log(error)}
+        onNotFound={() => console.log('no results')}
         placeholder="Rechercher"
         styles={{
           textInput: {
