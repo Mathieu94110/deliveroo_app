@@ -6,6 +6,7 @@ import RestaurantItems from '../components/RestaurantItems/RestaurantItems';
 import { localRestaurants } from '../locales/locales';
 import { restaurantData } from '../types/types';
 import { getRestaurantsFromYelp } from '../services/businessesService';
+import { Divider } from 'react-native-elements';
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [restaurantData, setRestaurantData] = useState<any>(localRestaurants);
@@ -35,6 +36,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         <Categories />
         <RestaurantItems restaurantData={restaurantData} navigation={navigation} />
       </ScrollView>
+      <Divider width={1} />
     </SafeAreaView>
   );
 };

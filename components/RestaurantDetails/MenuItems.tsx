@@ -3,25 +3,12 @@ import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { Divider } from 'react-native-elements';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
-const styles = StyleSheet.create({
-  menuItemStyle: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 20,
-  },
-
-  titleStyle: {
-    fontSize: 19,
-    fontWeight: '600',
-  },
-});
-
 export default function MenuItems({ restaurantName, foods }: { restaurantName: any; foods: any }) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food: any, index: any) => (
         <View key={index}>
-          <View style={styles.menuItemStyle}>
+          <View className="flex-row justify-between m-5">
             <BouncyCheckbox
               iconStyle={{ borderColor: 'lightgray', borderRadius: 0 }}
               fillColor="green"
@@ -30,7 +17,7 @@ export default function MenuItems({ restaurantName, foods }: { restaurantName: a
             <FoodInfo food={food} />
             <FoodImage food={food} />
           </View>
-          <Divider className="w-px" orientation="vertical" style={{ marginHorizontal: 20 }} />
+          <Divider width={0.5} orientation="vertical" style={{ marginHorizontal: 20 }} />
         </View>
       ))}
     </ScrollView>
@@ -38,8 +25,8 @@ export default function MenuItems({ restaurantName, foods }: { restaurantName: a
 }
 
 const FoodInfo = (props: any) => (
-  <View style={{ width: 240, justifyContent: 'space-evenly' }}>
-    <Text style={styles.titleStyle}>{props.food.title}</Text>
+  <View className="w-60 justify-evenly">
+    <Text className="text-lg font-semi-bold">{props.food.title}</Text>
     <Text>{props.food.description}</Text>
     <Text>{props.food.price}</Text>
   </View>
@@ -50,11 +37,9 @@ const FoodImage = ({ marginLeft, ...props }: { marginLeft: number; props: any })
     <Image
       source={{ uri: props.food.image }}
       style={{
-        width: 100,
-        height: 100,
-        borderRadius: 8,
         marginLeft: marginLeft,
       }}
+      className="w-24 h-24 rounded-lg"
     />
   </View>
 );

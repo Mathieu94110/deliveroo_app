@@ -6,7 +6,7 @@ import { GOOGLE_MAPS_KEY } from '@env';
 
 export default function SearchBar({ cityHandler }: { cityHandler: Function }) {
   return (
-    <View style={{ marginTop: 15, flexDirection: 'row' }}>
+    <View className="mt-3.5 flex-row">
       <GooglePlacesAutocomplete
         query={{ key: GOOGLE_MAPS_KEY, language: 'en' }}
         requestUrl={{

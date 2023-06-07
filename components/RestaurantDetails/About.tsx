@@ -33,31 +33,13 @@ export default function About(props: any) {
 }
 
 const RestaurantImage = (props: any) => (
-  <Image source={{ uri: props.image }} style={{ width: '100%', height: 180 }} />
+  <Image source={{ uri: props.image }} className="w-full h-44" />
 );
 
 const RestaurantName = (props: any) => (
-  <Text
-    style={{
-      fontSize: 29,
-      fontWeight: '600',
-      marginTop: 10,
-      marginHorizontal: 15,
-    }}
-  >
-    {props.name}
-  </Text>
+  <Text className="text-3xl font-semi-bold mt-2.5 mx-4">{props.name}</Text>
 );
 
 const RestaurantDescription = (props: any) => (
-  <Text
-    style={{
-      marginTop: 10,
-      marginHorizontal: 15,
-      fontWeight: '400',
-      fontSize: 15.5,
-    }}
-  >
-    {props.description}
-  </Text>
+  <Text className="mt-2.5 mx-4 text-base">{props.description}</Text>
 );
