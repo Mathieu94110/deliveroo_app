@@ -1,6 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { HeartIcon } from 'react-native-heroicons/outline';
 import { restaurantData } from '../../types/types';
+import { useEffect } from 'react';
 
 export default function RestaurantItems({
   navigation,
@@ -9,6 +10,10 @@ export default function RestaurantItems({
   navigation: any;
   restaurantData: restaurantData[];
 }) {
+  useEffect(() => {
+    console.log(navigation);
+    console.log(restaurantData);
+  });
   return (
     <>
       {restaurantData.map((restaurant, index) => (
@@ -17,16 +22,8 @@ export default function RestaurantItems({
           activeOpacity={1}
           className="mb-7"
           onPress={() =>
-            navigation.navigate('Root', {
-              screen: 'RestaurantDetails',
-              params: {
-                name: restaurant.name,
-                image_url: restaurant.image_url,
-                price: restaurant.price,
-                review_count: restaurant.review_count,
-                rating: restaurant.rating,
-                categories: restaurant.categories,
-              },
+            navigation.navigate('RestaurantDetails', {
+              restaurant: restaurant,
             })
           }
         >
