@@ -4,8 +4,9 @@ import RestaurantDetailsScreen from './screens/RestaurantDetails';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { TailwindProvider } from 'tailwindcss-react-native';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from './redux/store/store';
 
-import Home from './screens/HomeScreen';
 function RootNavigation() {
   const Stack = createStackNavigator<AppStackParamList>();
   const screenOptions = {
@@ -18,14 +19,16 @@ function RootNavigation() {
   };
 
   return (
-    <NavigationContainer>
-      <TailwindProvider>
-        <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="RestaurantDetails" component={RestaurantDetailsScreen} />
-        </Stack.Navigator>
-      </TailwindProvider>
-    </NavigationContainer>
+    <ReduxProvider store={store}>
+      <NavigationContainer>
+        <TailwindProvider>
+          <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="RestaurantDetails" component={RestaurantDetailsScreen} />
+          </Stack.Navigator>
+        </TailwindProvider>
+      </NavigationContainer>
+    </ReduxProvider>
   );
 }
 export default RootNavigation;
