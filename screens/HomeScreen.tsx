@@ -2,7 +2,7 @@ import { View, SafeAreaView, ScrollView, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Categories from '../components/Categories/Categories';
 import SearchBar from '../components/SearchBar/SearchBar';
-import RestaurantItems from '../components/RestaurantItems/RestaurantItems';
+import RestaurantItems from '../components/RestaurantDetails/RestaurantItems';
 import { localRestaurants } from '../locales/locales';
 import { restaurantData } from '../types/types';
 import { getRestaurantsFromYelp } from '../services/businessesService';
