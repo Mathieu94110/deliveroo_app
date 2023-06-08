@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import OrderItem from './OrderItem';
 import { useAppSelector } from '../../redux/store/hooks';
 import { cartSelector } from '../../redux/features/cartSlice';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../services/firebase.config';
 
 export default function ViewCart({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -17,6 +19,22 @@ export default function ViewCart({ navigation }) {
     style: 'currency',
     currency: 'USD',
   });
+
+  const addOrderToFireBase = async () => {
+    const collectionRef = collection(db, 'orders');
+    try {
+      await addDoc(collectionRef, {
+        items: items,
+        restaurantName: restaurantName,
+        createdAt: serverTimestamp(),
+      });
+      setTimeout(() => {
+        navigation.navigate('OrderCompleted');
+      }, 2500);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const checkoutModalContent = () => {
     return (
@@ -34,7 +52,10 @@ export default function ViewCart({ navigation }) {
             <View className="flex-row justify-center">
               <TouchableOpacity
                 className="mt-5 bg-black items-center p-3 rounded-3xl w-72 relative"
-                onPress={() => setModalVisible(false)}
+                onPress={() => {
+                  addOrderToFireBase();
+                  setModalVisible(false);
+                }}
               >
                 <Text className="color-white text-xl">Valider</Text>
                 <Text className="absolute right-5 top-4 color-white">{total ? totalUSD : ''}</Text>
