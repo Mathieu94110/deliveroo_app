@@ -1,6 +1,7 @@
 import React from 'react';
 import HomeScreen from './screens/HomeScreen';
 import RestaurantDetailsScreen from './screens/RestaurantDetails';
+import OrderCompletedScreen from './screens/OrderCompleted';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { TailwindProvider } from 'tailwindcss-react-native';
@@ -25,6 +26,7 @@ function RootNavigation() {
           <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="RestaurantDetails" component={RestaurantDetailsScreen} />
+            <Stack.Screen name="OrderCompleted" component={OrderCompletedScreen} />
           </Stack.Navigator>
         </TailwindProvider>
       </NavigationContainer>

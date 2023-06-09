@@ -5,7 +5,17 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { addToCart, cartSelector } from '../../redux/features/cartSlice';
 
-export default function MenuItems({ restaurantName, foods }: { restaurantName: any; foods: any }) {
+export default function MenuItems({
+  restaurantName,
+  foods,
+  hideCheckbox,
+  marginLeft,
+}: {
+  restaurantName: any;
+  foods: any;
+  hideCheckbox: boolean;
+  marginLeft: number;
+}) {
   const dispatch = useAppDispatch();
   const selectedUsers = useAppSelector(cartSelector);
   const selectItem = (item: any, checkboxValue: boolean) =>
@@ -23,15 +33,19 @@ export default function MenuItems({ restaurantName, foods }: { restaurantName: a
       {foods.map((food: any, index: any) => (
         <View key={index}>
           <View className="flex-row justify-between m-5">
-            <BouncyCheckbox
-              iconStyle={{ borderColor: 'lightgray', borderRadius: 0 }}
-              fillColor="green"
-              isChecked={isFoodInCart(food, selectedUsers)}
-              onPress={(checkboxValue) => selectItem(food, checkboxValue)}
-            />
+            {hideCheckbox ? (
+              <></>
+            ) : (
+              <BouncyCheckbox
+                iconStyle={{ borderColor: 'lightgray', borderRadius: 0 }}
+                fillColor="green"
+                isChecked={isFoodInCart(food, selectedUsers)}
+                onPress={(checkboxValue) => selectItem(food, checkboxValue)}
+              />
+            )}
 
             <FoodInfo food={food} />
-            <FoodImage food={food} />
+            <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
           <Divider width={0.5} orientation="vertical" style={{ marginHorizontal: 20 }} />
         </View>
