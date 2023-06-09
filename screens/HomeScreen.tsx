@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import Categories from '../components/Categories/Categories';
 import SearchBar from '../components/SearchBar/SearchBar';
 import RestaurantItems from '../components/RestaurantDetails/RestaurantItems';
-import { localRestaurants } from '../locales/locales';
+// import { localRestaurants } from '../locales/locales';
 import { restaurantData } from '../types/types';
 import { getRestaurantsFromYelp } from '../services/businessesService';
 import { Divider } from 'react-native-elements';
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
-  const [restaurantData, setRestaurantData] = useState<any>(localRestaurants);
+  const [restaurantData, setRestaurantData] = useState<any>([]);
   const [city, setCity] = useState('Paris');
 
   const getRestaurantsOnCity = async () => {

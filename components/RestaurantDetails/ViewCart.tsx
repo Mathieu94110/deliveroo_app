@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import OrderItem from './OrderItem';
 import { useAppSelector } from '../../redux/store/hooks';
 import { cartSelector } from '../../redux/features/cartSlice';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../services/firebase.config';
+import LottieView from 'lottie-react-native'; // for mobile mode
+import lottie from 'lottie-web'; // web mode
 
 export default function ViewCart({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const selectedUsers = useAppSelector(cartSelector);
   const { items, restaurantName } = selectedUsers.selectedItems;
 
@@ -19,8 +22,10 @@ export default function ViewCart({ navigation }) {
     style: 'currency',
     currency: 'USD',
   });
+  const loadingContainer = useRef(null);
 
   const addOrderToFireBase = async () => {
+    setLoading(true);
     const collectionRef = collection(db, 'orders');
     try {
       await addDoc(collectionRef, {
@@ -28,13 +33,22 @@ export default function ViewCart({ navigation }) {
         restaurantName: restaurantName,
         createdAt: serverTimestamp(),
       });
-      setTimeout(() => {
-        navigation.navigate('OrderCompleted');
-      }, 2500);
+      setLoading(false);
+      navigation.navigate('OrderCompleted');
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    lottie.loadAnimation({
+      animationData: require('../../assets/animations/loader.json'),
+      autoplay: true,
+      container: loadingContainer.current!,
+      loop: true,
+      renderer: 'svg',
+    });
+  }, []);
 
   const checkoutModalContent = () => {
     return (
@@ -91,6 +105,21 @@ export default function ViewCart({ navigation }) {
         </View>
       ) : (
         <></>
+      )}
+      {loading ? (
+        <View className="bg-black absolute opacity-60	justify-center items-center h-screen w-full">
+          <div ref={loadingContainer} id="loading-container"></div>;
+          {/* <LottieView
+            style={{ height: 200 }}
+            source={require('../../assets/animations/scanner.json')}
+            autoPlay
+            speed={3}
+          /> */}
+        </View>
+      ) : (
+        <>
+          <Text className="text-white text-xl mr-8">Aucun restaurant trouvé !</Text>
+        </>
       )}
     </>
   );
