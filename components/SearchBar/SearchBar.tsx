@@ -19,7 +19,7 @@ export default function SearchBar({ cityHandler }: { cityHandler: Function }) {
           cityHandler(city);
         }}
         onFail={(error) => console.log(error)}
-        onNotFound={() => console.log('no results')}
+        onNotFound={() => console.log('Aucun résultat')}
         placeholder="Rechercher"
         styles={{
           textInput: {

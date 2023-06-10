@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import { HeartIcon } from 'react-native-heroicons/outline';
 import { restaurantData } from '../../types/types';
 import { useEffect, useRef, useState } from 'react';
@@ -13,10 +13,7 @@ export default function RestaurantItems({
 }) {
   const [loading, setLoading] = useState(true);
   const loadingContainer = useRef(null);
-  useEffect(() => {
-    console.log(navigation);
-    console.log(restaurantData);
-  });
+
   useEffect(() => {
     lottie.loadAnimation({
       animationData: require('../../assets/animations/loader.json'),
@@ -79,14 +76,19 @@ export default function RestaurantItems({
           </TouchableOpacity>
         ))
       ) : (
-        <Text
-          className="text-sky-300"
-          onPress={() => {
-            Linking.openURL('https://cors-anywhere.herokuapp.com/corsdemo');
-          }}
-        >
-          Activer le serveur de démonstration
-        </Text>
+        <>
+          <Text
+            className="text-black font-semibold p-2"
+            onPress={() => {
+              Linking.openURL('https://cors-anywhere.herokuapp.com/corsdemo');
+            }}
+          >
+            Activer le serveur de démonstration
+          </Text>
+          <Text className="text-black p-2">
+            Une fois la demande d'accès au serveur effectuée , rafraichissez la page
+          </Text>
+        </>
       )}
     </>
   );

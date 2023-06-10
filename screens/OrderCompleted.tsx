@@ -10,15 +10,7 @@ import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestor
 
 export default function OrderCompleted() {
   const [lastOrder, setLastOrder] = useState({
-    items: [
-      {
-        title: 'Bologna',
-        description: 'With butter lettuce, tomato and sauce bechamel',
-        price: '$13.50',
-        image:
-          'https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg',
-      },
-    ],
+    items: [],
   });
 
   const selectedUsers = useAppSelector(cartSelector);
@@ -44,7 +36,8 @@ export default function OrderCompleted() {
 
     return () => unsubscribe();
   }, []);
-  // usef for developpement on web mode
+
+  // used for developpement on web mode
   useEffect(() => {
     lottie.loadAnimation({
       animationData: require('../assets/animations/checked.json'),
@@ -62,18 +55,13 @@ export default function OrderCompleted() {
       renderer: 'svg',
     });
   }, []);
-  const checkContainer = useRef(null);
-  const FoodContainer = useRef(null);
+
+  const checkContainer = useRef<null | HTMLDivElement>(null);
+  const FoodContainer = useRef<null | HTMLDivElement>(null);
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      {/* green checkmark */}
-      <View
-        style={{
-          margin: 15,
-          alignItems: 'center',
-          height: '100%',
-        }}
-      >
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="m-4 items-center h-full">
         <div ref={checkContainer} id="animation-container"></div>
 
         {/*  for mobile mode <LottieView
@@ -83,7 +71,7 @@ export default function OrderCompleted() {
           speed={0.5}
           loop={false}
         /> */}
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+        <Text className="text-xl font-semi-bold">
           Votre commmande chez {restaurantName} a été effectuée pour un montant de {totalUSD}
         </Text>
         <ScrollView>

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import { Divider } from 'react-native-elements';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { addToCart, cartSelector } from '../../redux/features/cartSlice';
+import { firebaseSelectedITems, localMenu } from '../../types/types';
 
 export default function MenuItems({
   restaurantName,
@@ -11,26 +11,23 @@ export default function MenuItems({
   hideCheckbox,
   marginLeft,
 }: {
-  restaurantName: any;
-  foods: any;
+  restaurantName?: string;
+  foods: localMenu[];
   hideCheckbox: boolean;
-  marginLeft: number;
+  marginLeft?: number;
 }) {
   const dispatch = useAppDispatch();
   const selectedUsers = useAppSelector(cartSelector);
-  const selectItem = (item: any, checkboxValue: boolean) =>
+  const selectItem = (item: localMenu, checkboxValue: boolean) =>
+    restaurantName &&
     dispatch(addToCart({ ...item, restaurantName: restaurantName, checkboxValue: checkboxValue }));
 
-  const isFoodInCart = (food: any, cartItems: any) =>
-    Boolean(cartItems.selectedItems.items.find((item: any) => item.title === food.title));
-
-  useEffect(() => {
-    console.log(selectedUsers.selectedItems.items);
-  }, [selectedUsers]);
+  const isFoodInCart = (food: localMenu, cartItems: firebaseSelectedITems) =>
+    Boolean(cartItems.selectedItems.items.find((item: localMenu) => item.title === food.title));
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      {foods.map((food: any, index: any) => (
+      {foods.map((food: localMenu, index: number) => (
         <View key={index}>
           <View className="flex-row justify-between m-5">
             {hideCheckbox ? (
@@ -54,7 +51,7 @@ export default function MenuItems({
   );
 }
 
-const FoodInfo = (props: any) => (
+const FoodInfo = (props: { food: localMenu }) => (
   <View className="w-60 justify-evenly">
     <Text className="text-lg font-semi-bold">{props.food.title}</Text>
     <Text>{props.food.description}</Text>
@@ -62,7 +59,13 @@ const FoodInfo = (props: any) => (
   </View>
 );
 
-const FoodImage = ({ marginLeft, ...props }: { marginLeft: number; props: any }) => (
+const FoodImage = ({
+  marginLeft,
+  ...props
+}: {
+  marginLeft: number;
+  props: { food: localMenu };
+}) => (
   <View>
     <Image
       source={{ uri: props.food.image }}

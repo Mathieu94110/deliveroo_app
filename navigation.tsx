@@ -17,6 +17,7 @@ function RootNavigation() {
   type AppStackParamList = {
     Home: undefined;
     RestaurantDetails: undefined;
+    OrderCompleted: undefined;
   };
 
   return (
