@@ -7,8 +7,9 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../services/firebase.config';
 import LottieView from 'lottie-react-native'; // for mobile mode
 import lottie from 'lottie-web'; // web mode
+import { RestaurantDetailsProps } from '../../types/types';
 
-export default function ViewCart({ navigation }) {
+export default function ViewCart({ navigation }: RestaurantDetailsProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const selectedUsers = useAppSelector(cartSelector);

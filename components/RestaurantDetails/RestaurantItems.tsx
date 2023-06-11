@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import { HeartIcon } from 'react-native-heroicons/outline';
-import { restaurantData } from '../../types/types';
+import { HomeProps, restaurantData } from '../../types/types';
 import { useEffect, useRef, useState } from 'react';
 import lottie from 'lottie-web';
 
@@ -8,13 +8,14 @@ export default function RestaurantItems({
   navigation,
   restaurantData,
 }: {
-  navigation: any;
+  navigation: HomeProps;
   restaurantData: restaurantData[];
 }) {
   const [loading, setLoading] = useState(true);
   const loadingContainer = useRef(null);
 
   useEffect(() => {
+    console.log(restaurantData);
     lottie.loadAnimation({
       animationData: require('../../assets/animations/loader.json'),
       autoplay: true,
@@ -39,7 +40,21 @@ export default function RestaurantItems({
                     speed={3}
                   /> */}
         </View>
-      ) : restaurantData.length ? (
+      ) : !loading && !restaurantData.length ? (
+        <>
+          <Text
+            className="text-blue-500 text-font-semibold p-2 mt-12 text-center"
+            onPress={() => {
+              Linking.openURL('https://cors-anywhere.herokuapp.com/corsdemo');
+            }}
+          >
+            Activer le serveur de démonstration
+          </Text>
+          <Text className="p-2 text-center">
+            Une fois la demande d'accès au serveur effectuée , rafraichissez la page
+          </Text>
+        </>
+      ) : (
         restaurantData.map((restaurant, index) => (
           <TouchableOpacity
             key={index}
@@ -47,7 +62,7 @@ export default function RestaurantItems({
             className="mb-7"
             onPress={() =>
               navigation.navigate('RestaurantDetails', {
-                restaurant: restaurant,
+                restaurantId: restaurant.id,
               })
             }
           >
@@ -75,20 +90,6 @@ export default function RestaurantItems({
             </View>
           </TouchableOpacity>
         ))
-      ) : (
-        <>
-          <Text
-            className="text-black font-semibold p-2"
-            onPress={() => {
-              Linking.openURL('https://cors-anywhere.herokuapp.com/corsdemo');
-            }}
-          >
-            Activer le serveur de démonstration
-          </Text>
-          <Text className="text-black p-2">
-            Une fois la demande d'accès au serveur effectuée , rafraichissez la page
-          </Text>
-        </>
       )}
     </>
   );

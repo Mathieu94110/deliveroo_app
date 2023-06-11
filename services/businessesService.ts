@@ -16,3 +16,12 @@ export const getRestaurantsFromYelp = async (city: string) => {
     throw e;
   }
 };
+export const getRestaurantInfo = async (id: string) => {
+  try {
+    const yelpUrl = `${BASE_URI}/businesses/${id}`;
+    const response = await fetch(yelpUrl, apiOptions);
+    return response;
+  } catch (e) {
+    throw e;
+  }
+};

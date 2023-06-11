@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import Categories from '../components/Categories/Categories';
 import SearchBar from '../components/SearchBar/SearchBar';
 import RestaurantItems from '../components/RestaurantDetails/RestaurantItems';
-import { restaurantData } from '../types/types';
-import { getRestaurantsFromYelp } from '../services/businessesService';
 import { Divider } from 'react-native-elements';
+import { getRestaurantsFromYelp } from '../services/businessesService';
+import { restaurantData, HomeProps } from '../types/types';
 
-const HomeScreen = ({ navigation }) => {
+const Home = ({ navigation }: HomeProps) => {
   const [restaurantData, setRestaurantData] = useState<restaurantData[]>([]);
   const [city, setCity] = useState('Paris');
 
@@ -15,6 +15,7 @@ const HomeScreen = ({ navigation }) => {
     const response = await getRestaurantsFromYelp(city);
     if (response.ok) {
       const data = await response.json();
+      console.log(data);
       setRestaurantData(data.businesses);
     } else {
       Alert.alert(`Problème lors du chargement des données`, `${response.statusText}`);
@@ -39,4 +40,4 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-export default HomeScreen;
+export default Home;
