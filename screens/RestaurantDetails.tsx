@@ -1,4 +1,4 @@
-import { Alert, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
 import { Divider } from 'react-native-elements';
 import { useEffect, useState } from 'react';
 import About from '../components/RestaurantDetails/About';
@@ -15,17 +15,16 @@ export default function RestaurantDetails({
   route: RestaurantDetailsProps;
   navigation: RestaurantDetailsProps;
 }) {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [restaurantInfos, setRestaurantInfos] = useState<restaurantData | null>(null);
 
   const getRestaurantById = async (id: string) => {
-    setLoading(true);
+    setIsLoading(true);
     const response = await getRestaurantInfo(id);
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       setRestaurantInfos(data);
-      setLoading(false);
+      setIsLoading(false);
     } else {
       Alert.alert(`Problème lors du chargement des données`, `${response.statusText}`);
     }
@@ -36,7 +35,7 @@ export default function RestaurantDetails({
 
   return (
     <>
-      {restaurantInfos ? (
+      {restaurantInfos && !isLoading ? (
         <View>
           <About infos={restaurantInfos} navigation={navigation} />
           <Divider width={1.8} style={{ marginVertical: 20 }} />
@@ -44,8 +43,8 @@ export default function RestaurantDetails({
           <ViewCart navigation={navigation} />
         </View>
       ) : (
-        <View>
-          <Text>Chargement en cours ...</Text>
+        <View className="w-full h-full flex items-center justify-center">
+          <ActivityIndicator size="large" color="#3399cc" />
         </View>
       )}
     </>

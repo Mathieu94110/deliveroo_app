@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { RestaurantDetailsProps, restaurantData } from '../types/types';
-import { ActivityIndicator, Button, Image, Text, View } from 'react-native';
-import { ArrowLeftIcon } from 'react-native-heroicons/outline';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { Table, Row } from 'react-native-table-component';
+import { RestaurantDetailsProps } from '../types/types';
+import { ArrowLeftIcon, BuildingStorefrontIcon } from 'react-native-heroicons/outline';
 
 const Schedules = ({
   route,
@@ -10,40 +11,73 @@ const Schedules = ({
   route: RestaurantDetailsProps;
   navigation: RestaurantDetailsProps;
 }) => {
-  const [schedules, setSchedules] = useState<Partial<restaurantData | null>>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [schedules, setSchedules] = useState<string[][]>([]);
+  const [isOpen, setIsOpen] = useState<boolean | null>(null);
+
+  const tableHead = ['Jour', 'Ouverture', 'Fermeture', 'Service en soirée'];
+  const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+
   useEffect(() => {
-    console.log(route.params.data);
-    setSchedules(route.params.data);
+    setIsLoading(true);
+    const { hours, is_closed } = route.params.data;
+    const weekSchedules: string[][] = [];
+    for (let i = 0; i < days.length; i++) {
+      if (hours[0].open[i]) {
+        weekSchedules[i] = [
+          days[i],
+          hours[0].open[i].start.substring(0, 2) + 'H' + hours[0].open[i].start.substring(2),
+          hours[0].open[i].end.substring(0, 2) + 'H' + hours[0].open[i].start.substring(2),
+          hours[0].open[i].is_overnight ? 'Oui' : 'Non',
+        ];
+      } else {
+        weekSchedules[i] = [days[i], '//', '//', '//'];
+      }
+    }
+    setIsOpen(!is_closed);
+    setSchedules(weekSchedules);
+    setIsLoading(false);
   }, [route.params.data]);
-  let days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 
   return (
-    <View className="w-full h-full p-4">
+    <View className="flex-1 p-3">
       <View className="w-32 my-4 flex flex-row">
         <ArrowLeftIcon color="gray" size={30} onPress={() => navigation.goBack()} />
       </View>
-      {schedules ? (
-        <View>
-          <Text className="p-3 text-lg bg-sky-400 border border-black">
-            <Text className="font-semibold text-white">Ouvert </Text>
-            <Text className="font-semibold">{schedules.is_closed ? 'Non' : 'Oui'}</Text>
-            {schedules.hours[0].open.map((day: any, index: number) => {
-              return (
-                <Text>
-                  `{days[index]} Horaires: `: {day.start} - ${day.end}
-                </Text>
-              );
-            })}
-          </Text>
+      <View className="w-full text-center my-2">
+        <Text
+          className={`font-semibold text-lg flex items-center justify-center
+    ${isOpen ? 'text-green-600' : 'text-red-600'}
+    `}
+        >
+          <BuildingStorefrontIcon /> {isOpen ? 'Ouvert' : 'Fermé'}
+        </Text>
+      </View>
+      {isLoading ? (
+        <View className="w-full h-full flex items-center justify-center">
+          <ActivityIndicator size="large" color="#3399cc" />
         </View>
       ) : (
-        <View className="w-full h-full flex flex-col justify-center items-center">
-          {' '}
-          <ActivityIndicator size="small" color="#0000ff" />
-        </View>
+        <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }} style={styles.container}>
+          <Row data={tableHead} textStyle={styles.head} />
+          {schedules.map((dataRow: any, index: number) => (
+            <Row key={index} data={dataRow} textStyle={styles.text} />
+          ))}
+        </Table>
       )}
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: { backgroundColor: '#3399cc', textAlign: 'center' },
+  head: {
+    height: 40,
+    fontWeight: 600,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#fff',
+  },
+  text: { margin: 6, fontWeight: 600, color: '#fff' },
+});
 export default Schedules;

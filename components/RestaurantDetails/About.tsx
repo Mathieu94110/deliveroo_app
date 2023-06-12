@@ -1,7 +1,6 @@
 import { View, Text, Image } from 'react-native';
-import { RestaurantDetailsProps, restaurantData } from '../../types/types';
-import { useEffect, useState } from 'react';
 import AboutMenu from './AboutMenu';
+import { RestaurantDetailsProps, restaurantData } from '../../types/types';
 
 export default function About({
   infos,
@@ -10,9 +9,6 @@ export default function About({
   infos: restaurantData;
   navigation: RestaurantDetailsProps;
 }) {
-  useEffect(() => {
-    console.log(infos);
-  });
   const formattedCategories = infos?.categories?.map((cat) => cat.title).join(' • ');
   const description = `${formattedCategories} ${infos.price ? ' • ' + infos.price : ''} • 🎫 • ${
     infos.rating

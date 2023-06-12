@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { MapPinIcon, InformationCircleIcon } from 'react-native-heroicons/outline';
+import { MapPinIcon } from 'react-native-heroicons/outline';
 import { GOOGLE_MAPS_KEY } from '@env';
 
 export default function SearchBar({ cityHandler }: { cityHandler: Function }) {
@@ -40,12 +40,6 @@ export default function SearchBar({ cityHandler }: { cityHandler: Function }) {
         renderLeftButton={() => (
           <View className="ml-2.5">
             <MapPinIcon size={24} />
-          </View>
-        )}
-        renderRightButton={() => (
-          <View className="flex-row mr-2 bg-white p-2 rounded-3xl items-center">
-            <InformationCircleIcon color="gray" size={20} />
-            <Text>Rechercher</Text>
           </View>
         )}
       />
